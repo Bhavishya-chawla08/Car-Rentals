@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Driver Dashboard - RentDrive</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <%- include('partials/navbar') %>
+
+  <main class="container">
+    <section class="card">
+      <h1>Welcome, <%= user.name %> (Driver)</h1>
+      <p style="color:var(--muted)">View and confirm rides assigned to you.</p>
+    </section>
+
+    <section class="mt-20">
+      <% if (rides.length === 0) { %>
+        <div class="card"><p>No rides assigned yet.</p></div>
+      <% } else { %>
+        <div class="grid">
+          <% rides.forEach(r => { %>
+            <div class="dashboard-card <%= r.status === 'Cancelled' ? 'booking-cancelled' : (r.confirmed ? 'booking-confirmed' : 'booking-pending') %>">
+              <h3>Booking #<%= r.id %> — 
+                <span class="status <%= r.status.toLowerCase() %>"><%= r.status %></span>
+              </h3>
+              <p><strong>User:</strong> <%= r.user_name %></p>
+              <p><strong>Pickup:</strong> <%= r.pickup_address %></p>
+              <p><strong>Drop:</strong> <%= r.drop_address %></p>
+              <p><strong>Pickup Time:</strong> <%= r.pickup_time %></p>
+              <p><strong>Dates:</strong> <%= r.start_date.toISOString().split('T')[0] %> → <%= r.end_date.toISOString().split('T')[0] %></p>
+
+              <% if (!r.confirmed && r.status !== 'Cancelled') { %>
+                <form method="POST" action="/confirm-ride" style="margin-top:8px;">
+                  <input type="hidden" name="booking_id" value="<%= r.id %>">
+                  <button class="btn-primary">Confirm Ride</button>
+                </form>
+              <% } else if (r.status === 'Cancelled') { %>
+                <p style="color:red; font-weight:600;">❌ Ride Cancelled by User</p>
+              <% } else { %>
+                <p style="color:green; font-weight:600;">✔ Ride Confirmed</p>
+              <% } %>
+            </div>
+          <% }) %>
+        </div>
+      <% } %>
+    </section>
+  </main>
+
+  <%- include('partials/footer') %>
+</body>
+</html>

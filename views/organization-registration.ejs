@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Organization Registration - RentDrive</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <%- include('partials/navbar') %>
+
+  <main class="container">
+    <section class="card">
+      <div class="grid">
+        <div>
+          <h2>Register Your Organization</h2>
+          <p>Register an organization to manage drivers and bookings for your company. After registration, you can log in using your organization email.</p>
+          <ul style="margin-top:12px;color:var(--muted);">
+            <li>Manage driver profiles under your organization</li>
+            <li>Perform CRUD operations for employees</li>
+            <li>View organization-level bookings</li>
+          </ul>
+        </div>
+
+        <form class="form-box" id="orgRegistrationForm" method="POST" action="/org-register">
+          <label for="companyName">Company Name</label>
+          <input id="companyName" name="companyName" type="text" required placeholder="e.g., FastLogistics Pvt Ltd" />
+
+          <label for="regNumber" class="mt-20">Business Registration Number</label>
+          <input id="regNumber" name="regNumber" type="text" required placeholder="Registration number" />
+
+          <label for="email" class="mt-20">Contact Email</label>
+          <input id="email" name="email" type="email" required placeholder="company@example.com" />
+
+          <label for="phone" class="mt-20">Phone Number</label>
+          <input id="phone" name="phone" type="tel" required placeholder="+91 98765 43210" />
+
+          <label for="password" class="mt-20">Create Password</label>
+          <input id="password" name="password" type="password" required placeholder="Enter a strong password" />
+
+          <div class="mt-20 text-center">
+            <button class="btn-primary" type="submit">Register Organization</button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <%- include('partials/footer') %>
+
+  <script>
+    function isValidEmail(email) {
+      return "/^[^\s@]+@[^\s@]+\.[^\s@]+$/".test(email);
+    }
+    document.getElementById('orgRegistrationForm').addEventListener('submit', function(e){
+      const email = document.getElementById('email').value.trim();
+      if (!isValidEmail(email)) {
+        e.preventDefault();
+        alert('Please enter a valid email address.');
+      }
+    });
+  </script>
+</body>
+</html>

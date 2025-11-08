@@ -1,0 +1,25 @@
+<header class="site-header">
+  <div class="nav-container">
+    <a href="/index" class="logo">RentDrive</a>
+    <button class="nav-toggle" onclick="document.querySelector('.main-nav').classList.toggle('open')">☰</button>
+
+    <nav class="main-nav">
+      <ul>
+        <li><a href="/index">Home</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/car-list">Car List</a></li>
+        <li><a href="/contact">Contact</a></li>
+
+        <% if (!user) { %>
+          <li><a href="/registration">User Register</a></li>
+          <li><a href="/driver-registration">Driver Register</a></li>
+          <li><a href="/organization-registration">Organization</a></li>
+          <li><a href="/login" class="btn btn-warning">Login</a></li>
+        <% } else { %>
+          <li><a href="/dashboard">Dashboard</a></li>
+          <li><a href="/logout" class="btn btn-warning">Logout</a></li>
+        <% } %>
+      </ul>
+    </nav>
+  </div>
+</header>

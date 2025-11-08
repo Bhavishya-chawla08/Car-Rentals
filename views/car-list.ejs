@@ -1,0 +1,80 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Car List - RentDrive</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <%- include('partials/navbar') %>
+
+  <main class="container">
+    <section class="card">
+      <h2>Our Available Cars</h2>
+
+      <div style="display:flex;gap:12px;align-items:center;margin:16px 0;flex-wrap:wrap">
+        <input id="searchInput" placeholder="Search by name or description" style="flex:1;padding:10px;border-radius:10px;border:1px solid #e6e9ef" oninput="filterCars()" />
+        <select id="categoryFilter" style="padding:10px;border-radius:10px;border:1px solid #e6e9ef" onchange="filterCars()">
+          <option value="">All Types</option>
+          <option value="hatchback">Hatchback</option>
+          <option value="sedan">Sedan</option>
+          <option value="suv">SUV</option>
+          <option value="luxury">Luxury</option>
+          <option value="convertible">Convertible</option>
+        </select>
+      </div>
+
+      <div id="car-list-container" class="grid">
+      </div>
+    </section>
+  </main>
+
+  <%- include('partials/footer') %>
+
+  <script>
+    const allCars = [
+      { img: 'https://imgd.aeplcdn.com/370x208/n/cw/ec/127563/alto-k10-exterior-right-front-three-quarter-62.jpeg', title: 'Maruti Suzuki Alto K10', description: 'A compact and fuel-efficient hatchback.', status: 'Available', statusClass: 'available', type: 'hatchback' },
+      { img: 'https://imgd.aeplcdn.com/370x208/n/cw/ec/159099/swift-exterior-right-front-three-quarter-31.jpeg', title: 'Maruti Suzuki Swift', description: 'A stylish and sporty hatchback for city drives.', status: 'Available', statusClass: 'available', type: 'hatchback' },
+      { img: 'https://imgd.aeplcdn.com/370x208/n/cw/ec/102663/baleno-exterior-right-front-three-quarter-71.jpeg', title: 'Maruti Suzuki Baleno', description: 'A premium hatchback with spacious interiors.', status: 'Unavailable', statusClass: 'unavailable', type: 'hatchback' },
+      { img: 'https://imgd.aeplcdn.com/370x208/n/cw/ec/136183/grand-i10-nios-exterior-right-front-three-quarter-16.jpeg', title: 'Hyundai Grand i10 Nios', description: 'A modern and feature-rich urban car.', status: 'Available', statusClass: 'available', type: 'hatchback' },
+      { img: 'https://imgd.aeplcdn.com/370x208/n/cw/ec/106815/creta-exterior-right-front-three-quarter-5.jpeg', title: 'Hyundai Creta', description: 'A popular and powerful compact SUV.', status: 'Available', statusClass: 'available', type: 'suv' },
+      { img: 'https://imgd.aeplcdn.com/370x208/n/cw/ec/121943/verna-exterior-right-front-three-quarter-102.jpeg', title: 'Hyundai Verna', description: 'A stylish sedan with advanced safety features.', status: 'Unavailable', statusClass: 'unavailable', type: 'sedan' }
+    ];
+
+    function renderCars(carsToDisplay) {
+      const container = document.getElementById('car-list-container');
+      container.innerHTML = '';
+      if (carsToDisplay.length === 0) {
+        container.innerHTML = '<div class="card text-center">No cars found.</div>';
+        return;
+      }
+      carsToDisplay.forEach(car => {
+        const div = document.createElement('div');
+        div.className = 'car-card card';
+        div.innerHTML = `
+          <img src="${car.img}" alt="${car.title}" />
+          <div>
+            <div class="car-title">${car.title}</div>
+            <div style="color:var(--muted);margin:8px 0">${car.description}</div>
+            <div>Type: <strong>${car.type}</strong></div>
+            <div style="margin-top:10px"><span class="status ${car.statusClass}">${car.status}</span></div>
+            ${car.status==='Available' ? '<div style="margin-top:12px"><a class="btn btn-primary" href="/registration">Register</a></div>' : ''}
+          </div>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function filterCars(){
+      const s = document.getElementById('searchInput').value.toLowerCase();
+      const cat = document.getElementById('categoryFilter').value;
+      const filtered = allCars.filter(c => (c.title.toLowerCase().includes(s) || c.description.toLowerCase().includes(s)) && (cat === '' || c.type === cat));
+      renderCars(filtered);
+    }
+
+    window.onload = () => renderCars(allCars);
+  </script>
+</body>
+</html>
+

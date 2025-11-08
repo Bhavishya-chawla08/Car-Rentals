@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Driver Registration - RentDrive</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <%- include('partials/navbar') %>
+
+  <main class="container">
+    <section class="card">
+      <div class="grid">
+        <!-- LEFT SIDE INFO -->
+        <div>
+          <h2>Driver Registration</h2>
+          <p>Register as an individual driver or as an employee of an organization.</p>
+          <p style="color:var(--muted)">If your organization already exists, select it in the form so the organization admin can manage you.</p>
+          <div style="margin-top:12px">
+            <div class="card" style="padding:12px;background:#f8fafc">
+              <strong>Tip:</strong> Upload a clear photo of your valid driver's license. Profiles with valid documents get prioritized.
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT SIDE FORM -->
+        <form class="form-box" id="driverRegistrationForm" method="POST" action="/driver-register" enctype="multipart/form-data">
+          <label for="fullname">Full Name</label>
+          <input id="fullname" name="fullname" type="text" required placeholder="Your full name" />
+
+          <label for="email" class="mt-20">Email Address</label>
+          <input id="email" name="email" type="email" required placeholder="you@example.com" />
+
+          <label for="password" class="mt-20">Create Password</label>
+          <input id="password" name="password" type="password" required placeholder="Enter a secure password" />
+
+          <label for="phone" class="mt-20">Phone Number</label>
+          <input id="phone" name="phone" type="tel" required placeholder="+91 98765 43210" />
+
+          <label for="city" class="mt-20">City</label>
+          <input id="city" name="city" type="text" required placeholder="City where you operate (e.g., Pune)" />
+
+          <label for="orgOpt" class="mt-20">Registering as</label>
+          <select id="orgOpt" name="orgOpt">
+            <option value="individual">Individual Driver</option>
+            <option value="organization">Register under Organization</option>
+          </select>
+
+          <label for="orgId" class="mt-20" id="orgIdLabel" style="display:none">Organization ID (if registering under org)</label>
+          <input id="orgId" name="orgId" type="text" placeholder="Organization id (optional)" style="display:none" />
+
+          <label for="driver-license" class="mt-20">Driver's License Photo</label>
+          <input id="driver-license" name="driver_license" type="file" accept="image/*" required />
+
+          <div class="mt-20 text-center">
+            <button class="btn-primary" type="submit">Register as Driver</button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <%- include('partials/footer') %>
+
+  <script>
+    const orgOpt = document.getElementById('orgOpt');
+    const orgId = document.getElementById('orgId');
+    const orgIdLabel = document.getElementById('orgIdLabel');
+
+    orgOpt.addEventListener('change', () => {
+      if (orgOpt.value === 'organization') {
+        orgId.style.display = 'block';
+        orgIdLabel.style.display = 'block';
+      } else {
+        orgId.style.display = 'none';
+        orgIdLabel.style.display = 'none';
+      }
+    });
+
+    document.getElementById('driverRegistrationForm').addEventListener('submit', (e) => {
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value.trim();
+
+      const emailPattern = "/^[^\s@]+@[^\s@]+\.[^\s@]+$/";
+      if (!emailPattern.test(email)) {
+        e.preventDefault();
+        return alert('Enter a valid email address.');
+      }
+
+      if (password.length < 6) {
+        e.preventDefault();
+        return alert('Password must be at least 6 characters long.');
+      }
+    });
+  </script>
+</body>
+</html>

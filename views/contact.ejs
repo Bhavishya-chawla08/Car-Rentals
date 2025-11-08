@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Contact - RentDrive</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <%- include('partials/navbar') %>
+
+  <main class="container">
+    <section class="card grid">
+      <div>
+        <h2>Contact Us</h2>
+        <p>Send us a message — we'll respond as soon as possible.</p>
+        <div class="card" style="padding:12px;background:#f8fafc;margin-top:12px">
+          <strong>Customer Support</strong>
+          <p style="color:var(--muted)">support@rentdrive.com · +91 98765 43210</p>
+        </div>
+      </div>
+
+      <form id="contactForm" class="form-box" method="POST" action="/contact-submit">
+        <label for="name">Name</label>
+        <input id="name" name="name" type="text" required />
+
+        <label for="email" class="mt-20">Email</label>
+        <input id="email" name="email" type="email" required />
+
+        <label for="phone" class="mt-20">Phone</label>
+        <input id="phone" name="phone" type="tel" required />
+
+        <label for="message" class="mt-20">Message</label>
+        <textarea id="message" name="message" required></textarea>
+
+        <div class="mt-20 text-center">
+          <button class="btn-primary" type="submit">Send Message</button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <%- include('partials/footer') %>
+
+  <script>
+    document.getElementById('contactForm').addEventListener('submit', function(e){
+      const email = document.getElementById('email').value.trim();
+      if (!"/^[^\s@]+@[^\s@]+\.[^\s@]+$/".test(email)) { e.preventDefault(); alert('Enter a valid email'); }
+    });
+  </script>
+</body>
+</html>

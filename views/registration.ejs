@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>User Registration - RentDrive</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <%- include('partials/navbar') %>
+
+  <main class="container">
+    <section class="card grid">
+      <div>
+        <h2>Sign up as a User</h2>
+        <p>Create an account to browse drivers in your city and book rides.</p>
+        <div style="margin-top:12px" class="card" >
+          <strong>Why register?</strong>
+          <ul style="color:var(--muted);margin-top:8px">
+            <li>View and book available drivers in your city</li>
+            <li>Track booking history (Scheduled / Completed / Cancelled)</li>
+            <li>Manage your profile and bookings</li>
+          </ul>
+        </div>
+      </div>
+
+      <form id="registrationForm" class="form-box" method="POST" action="/register">
+        <label for="fullname">Full Name</label>
+        <input id="fullname" name="fullname" type="text" required />
+
+        <label for="email" class="mt-20">Email Address</label>
+        <input id="email" name="email" type="email" required />
+
+        <label for="password" class="mt-20">Password</label>
+        <input id="password" name="password" type="password" required />
+
+        <label for="phone" class="mt-20">Phone Number</label>
+        <input id="phone" name="phone" type="tel" required />
+
+        <label for="city" class="mt-20">City</label>
+        <input id="city" name="city" type="text" required placeholder="e.g., Pune" />
+
+        <div class="mt-20 text-center">
+          <button class="btn-primary" type="submit">Create Account</button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <%- include('partials/footer') %>
+
+  <script>
+    function isValidEmail(email){ return "/^[^\s@]+@[^\s@]+\.[^\s@]+$/".test(email) }
+    document.getElementById('registrationForm').addEventListener('submit', function(e){
+      const email = document.getElementById('email').value.trim();
+      if (!isValidEmail(email)) { e.preventDefault(); alert('Please enter a valid email'); }
+    });
+  </script>
+</body>
+</html>
