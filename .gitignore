@@ -11,7 +11,7 @@ yarn-error.log*
 debug.log
 
 # Uploads and temporary files
-# public/uploads/
+public/uploads/
 
 # IDE/editor/system files
 .vscode/
